@@ -11,8 +11,8 @@
 #include "libs/json.hpp"
 #include <fstream>
 #include <string>
-#include "structs/nodesManager.cpp"
-#include "structs/connectorsManager.cpp"
+#include "structs/nodesManager.hpp"
+#include "structs/connectorsManager.hpp"
 
 using namespace std;
 
@@ -26,28 +26,27 @@ string convertToTGF(json jsonData) {
     ConnectorsManager connectorsManager;
     connectorsManager.elementsCount = elementsCount;
     connectorsManager.jsonData = jsonData;
-    json nodes = nodesManager.fetch();
-    json connectors = connectorsManager.fetch();
+    json nodes = graph_nodes::fetch(nodesManager);
+    json connectors = graph_connectors::fetch(connectorsManager);
     int nodesSize = nodes.size();
     int connectorsSize = connectors.size();
     string tgf = "";
     for (int i = 0 ; i < nodesSize ; i++) {
-        tgf += nodesManager.buildString(nodes[i]);
+        tgf += graph_nodes::buildString(nodes[i]);
     }
     tgf += "#\n";
     for (int i = 0 ; i < connectorsSize ; i++) {
-        tgf += connectorsManager.buildString(connectors[i]);
+        tgf += graph_connectors::buildString(connectors[i]);
     }
     return tgf;
 }
 
 int main(int argc, char * argv[])
 {
-
     if (argc != 3) {
         cout << "This utility needs 2 arguments. They are the following: " << endl;
         cout << "ARGUMENT 1: The path to the source .de File" << endl;
-        cout << "ARGUMENT 2: The path to the target .tgf File" << endl; 
+        cout << "ARGUMENT 2: The path to the target .tgf File" << endl;
     }
     else {
         char* inputFilePath = argv[1];
@@ -56,12 +55,11 @@ int main(int argc, char * argv[])
         std::ifstream inputFile(inputFilePath);
         json data = json::parse(inputFile);
         inputFile.close();
-        
+
         string tgf = convertToTGF(data);
 
         std::ofstream outputFile(outputFilePath);
         outputFile << tgf;
         outputFile.close();
     }
-
 }
