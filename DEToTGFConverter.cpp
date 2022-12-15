@@ -22,21 +22,21 @@ string convertToTGF(json jsonData) {
     int elementsCount = jsonData.size();
     NodesManager nodesManager;
     nodesManager.elementsCount = elementsCount;
-    nodesManager.jsonData = jsonData;
+    nodesManager.jsonData = &jsonData;
     ConnectorsManager connectorsManager;
     connectorsManager.elementsCount = elementsCount;
-    connectorsManager.jsonData = jsonData;
+    connectorsManager.jsonData = &jsonData;
     json nodes = graph_nodes::fetch(nodesManager);
     json connectors = graph_connectors::fetch(connectorsManager);
     int nodesSize = nodes.size();
     int connectorsSize = connectors.size();
     string tgf = "";
     for (int i = 0 ; i < nodesSize ; i++) {
-        tgf += graph_nodes::buildString(nodes[i]);
+        tgf += graph_nodes::buildString(&nodes[i]);
     }
     tgf += "#\n";
     for (int i = 0 ; i < connectorsSize ; i++) {
-        tgf += graph_connectors::buildString(connectors[i]);
+        tgf += graph_connectors::buildString(&connectors[i]);
     }
     return tgf;
 }

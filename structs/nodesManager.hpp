@@ -7,7 +7,7 @@
 struct NodesManager {
 
     int elementsCount;
-    nlohmann::json jsonData;
+    nlohmann::json* jsonData;
 
 };
 
@@ -15,7 +15,7 @@ namespace graph_nodes
 {
     nlohmann::json fetch(NodesManager nodesManager);
 
-    std::string buildString(nlohmann::json node);
+    std::string buildString(nlohmann::json* node);
 }
 
 #endif

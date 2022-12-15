@@ -7,7 +7,7 @@
 struct ConnectorsManager {
 
     int elementsCount;
-    nlohmann::json jsonData;
+    nlohmann::json* jsonData;
 
 };
 
@@ -15,7 +15,7 @@ namespace graph_connectors
 {
     nlohmann::json fetch(ConnectorsManager connectorsManager);
 
-    std::string buildString(nlohmann::json connector);
+    std::string buildString(nlohmann::json* connector);
 }
 
 #endif
