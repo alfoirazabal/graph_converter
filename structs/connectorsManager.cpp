@@ -1,25 +1,32 @@
 #include "connectorsManager.hpp"
+#include "TGFConnector.hpp"
 
-nlohmann::json graph_connectors::fetch(ConnectorsManager connectorsManager) {
-    nlohmann::json connectors;
-    int currentElementIndex = 0;
-    for (int i = 0; i < connectorsManager.elementsCount; i++) {
-        nlohmann::json* currentData = &connectorsManager.jsonData->at(i);
+TGFConnector* graph_connectors::fetch(ConnectorsManager* connectorsManager) {
+    TGFConnector* firstConnector = NULL;
+    TGFConnector* currentConnector = NULL;
+    for (int i = 0 ; i < *connectorsManager->elementsCount ; i++) {
+        nlohmann::json* currentData = &connectorsManager->jsonData->at(i);
         if (currentData->contains("fill")) {
             bool isConnector = strcmp(currentData->at("fill").get<std::string>().c_str(), "CONNECTOR") == 0;
             if (isConnector) {
-                connectors[currentElementIndex] = *currentData;
-                currentElementIndex++;
+                if (firstConnector == NULL) {
+                    firstConnector = new TGFConnector();
+                    currentConnector = firstConnector;
+                }
+                else if (currentConnector->next == NULL) {
+                    TGFConnector* newConnector = new TGFConnector();
+                    currentConnector->next = newConnector;
+                    currentConnector = newConnector;
+                }
+                currentConnector->sourceNode = currentData->at("connect.a").get<std::string>();
+                currentConnector->targetNode = currentData->at("connect.b").get<std::string>();
             }
         }
     }
-    return connectors;
+    return firstConnector;
 }
 
-std::string graph_connectors::buildString(nlohmann::json* connector) {
-    std::string connectorString = "";
-    if (connector->contains("connect.a") && connector->contains("connect.b")) {
-        connectorString = connector->at("connect.a").get<std::string>() + " " + connector->at("connect.b").get<std::string>() + " " + '\n';
-    }
+std::string graph_connectors::buildString(TGFConnector* connector) {
+    std::string connectorString = connector->sourceNode + " " + connector->targetNode + '\n';
     return connectorString;
 }

@@ -2,20 +2,21 @@
 #define CONNECTORS_MANAGER_H_INCLUDED
 
 #include "../libs/json.hpp"
+#include "TGFConnector.hpp"
 #include <string>
 
 struct ConnectorsManager {
 
-    int elementsCount;
+    int* elementsCount;
     nlohmann::json* jsonData;
 
 };
 
 namespace graph_connectors
 {
-    nlohmann::json fetch(ConnectorsManager connectorsManager);
+    TGFConnector* fetch(ConnectorsManager* connectorsManager);
 
-    std::string buildString(nlohmann::json* connector);
+    std::string buildString(TGFConnector* connector);
 }
 
 #endif

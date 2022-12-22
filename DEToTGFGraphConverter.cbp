@@ -34,6 +34,8 @@
 		</Compiler>
 		<Unit filename="DEToTGFConverter.cpp" />
 		<Unit filename="libs/json.hpp" />
+		<Unit filename="structs/TGFConnector.hpp" />
+		<Unit filename="structs/TGFNode.hpp" />
 		<Unit filename="structs/connectorsManager.cpp" />
 		<Unit filename="structs/connectorsManager.hpp" />
 		<Unit filename="structs/nodesManager.cpp" />
