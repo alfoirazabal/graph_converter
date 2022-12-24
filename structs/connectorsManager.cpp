@@ -20,6 +20,7 @@ TGFConnector* graph_connectors::fetch(ConnectorsManager* connectorsManager) {
                 }
                 currentConnector->sourceNode = currentData->at("connect.a").get<std::string>();
                 currentConnector->targetNode = currentData->at("connect.b").get<std::string>();
+                currentConnector->label = currentData->at("label").get<std::string>();
             }
         }
     }
@@ -27,6 +28,10 @@ TGFConnector* graph_connectors::fetch(ConnectorsManager* connectorsManager) {
 }
 
 std::string graph_connectors::buildString(TGFConnector* connector) {
-    std::string connectorString = connector->sourceNode + " " + connector->targetNode + '\n';
+    std::string connectorString = connector->sourceNode + " " + connector->targetNode;
+    if (connector->label != "") {
+        connectorString += " " + connector->label;
+    }
+    connectorString += '\n';
     return connectorString;
 }

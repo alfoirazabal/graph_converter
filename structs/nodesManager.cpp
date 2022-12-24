@@ -27,6 +27,6 @@ TGFNode* graph_nodes::fetch(NodesManager* nodesManager) {
 }
 
 std::string graph_nodes::buildString(TGFNode* node) {
-    std::string nodeString = node->id + " " + node->label + " " + '\n';
+    std::string nodeString = node->id + " " + node->label + '\n';
     return nodeString;
 }

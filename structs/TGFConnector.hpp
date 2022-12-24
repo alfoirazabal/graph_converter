@@ -7,6 +7,7 @@ struct TGFConnector {
 
     std::string sourceNode;
     std::string targetNode;
+    std::string label;
     TGFConnector* next;
 
     TGFConnector() {
